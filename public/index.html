@@ -8,301 +8,586 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0d1117;
-      --surface: #161b22;
-      --surface2: #1c2128;
-      --border: #30363d;
-      --text: #e6edf3;
-      --text-muted: #7d8590;
-      --accent: #58a6ff;
-      --radius: 8px;
+      --bg:       #f1f5f9;
+      --surface:  #ffffff;
+      --surface2: #f1f5f9;
+      --border:   #e2e8f0;
+      --border2:  #cbd5e1;
+      --text:     #0f172a;
+      --muted:    #64748b;
+      --accent:   #6366f1;
+      --r:        9px;
     }
 
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       font-size: 14px;
       min-height: 100vh;
-      padding: 24px 16px 60px;
     }
 
-    .wrap { max-width: 1000px; margin: 0 auto; }
+    /* Top accent stripe */
+    body::before {
+      content: '';
+      display: block;
+      height: 3px;
+      background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 40%, #06b6d4 100%);
+    }
 
-    /* Header */
-    .hdr { margin-bottom: 28px; }
-    .hdr h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
-    .hdr p { color: var(--text-muted); font-size: 13px; }
+    .wrap { max-width: 1060px; margin: 0 auto; padding: 0 20px; }
 
-    /* Card */
+    /* ── Header ─────────────────────────────────────────────────── */
+    .hdr {
+      padding: 28px 0 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 28px;
+    }
+
+    .hdr-inner {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .hdr-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #ede9fe 0%, #dbeafe 100%);
+      border: 1px solid #c7d2fe;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .hdr-icon svg { width: 22px; height: 22px; }
+
+    .hdr-text { min-width: 0; }
+
+    .hdr-text h1 {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.3;
+      letter-spacing: -.3px;
+    }
+
+    .hdr-text p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .hdr-text code {
+      font-family: 'SF Mono', Menlo, Consolas, monospace;
+      font-size: 11px;
+      background: #e0f2fe;
+      border: 1px solid #bae6fd;
+      border-radius: 4px;
+      padding: 1px 5px;
+      color: #0369a1;
+    }
+
+    /* ── Two-column layout ──────────────────────────────────────── */
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    @media (max-width: 800px) {
+      .layout { grid-template-columns: 1fr; }
+      .col-aside { order: -1; }
+    }
+
+    /* ── Card ───────────────────────────────────────────────────── */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 16px;
+      padding: 18px;
+      margin-bottom: 14px;
     }
 
+    .card:last-child { margin-bottom: 0; }
+
     .card-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
       text-transform: uppercase;
-      letter-spacing: .05em;
+      letter-spacing: .07em;
       margin-bottom: 12px;
     }
 
+    /* ── Textarea ────────────────────────────────────────────────── */
     textarea {
       width: 100%;
-      height: 160px;
+      height: 150px;
       background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
+      border: 1px solid var(--border2);
+      border-radius: var(--r);
       color: var(--text);
       font-family: 'SF Mono', Menlo, Consolas, monospace;
       font-size: 12px;
       padding: 10px 12px;
       resize: vertical;
       outline: none;
-      line-height: 1.6;
+      line-height: 1.65;
       transition: border-color .15s;
     }
-    textarea:focus { border-color: var(--accent); }
-    textarea::placeholder { color: var(--text-muted); }
+    textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px #6366f11a; }
+    textarea::placeholder { color: #94a3b8; }
 
-    /* Controls row */
+    /* ── Controls ────────────────────────────────────────────────── */
     .controls {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 12px;
+      gap: 8px;
+      margin-top: 11px;
       align-items: center;
     }
 
-    .label-inline {
+    .ctrl-group {
       display: flex;
       align-items: center;
       gap: 6px;
-      color: var(--text-muted);
+      color: var(--muted);
       font-size: 13px;
     }
-    .label-inline input[type=number] {
-      width: 56px;
+
+    .ctrl-group input[type=number] {
+      width: 54px;
       background: var(--bg);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border2);
       border-radius: 6px;
       color: var(--text);
       font-size: 13px;
       padding: 4px 8px;
       outline: none;
       text-align: center;
+      appearance: textfield;
     }
 
     .spacer { flex: 1; }
 
-    .hint { color: var(--text-muted); font-size: 12px; }
+    .keycount {
+      font-size: 12px;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
 
-    /* Buttons */
+    /* ── Buttons ─────────────────────────────────────────────────── */
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 7px 16px;
-      border-radius: var(--radius);
+      gap: 5px;
+      padding: 7px 15px;
+      border-radius: var(--r);
       border: 1px solid transparent;
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
       transition: all .15s;
       white-space: nowrap;
+      line-height: 1;
     }
-    .btn-primary { background: #238636; border-color: #2ea043; color: #fff; }
-    .btn-primary:hover:not(:disabled) { background: #2ea043; }
-    .btn-primary:disabled { opacity: .45; cursor: not-allowed; }
-    .btn-ghost { background: transparent; border-color: var(--border); color: var(--text-muted); }
-    .btn-ghost:hover { background: var(--surface2); color: var(--text); }
+
+    .btn-run {
+      background: #1d4ed8;
+      border-color: #2563eb;
+      color: #fff;
+    }
+    .btn-run:hover:not(:disabled) { background: #2563eb; }
+    .btn-run:disabled { opacity: .4; cursor: not-allowed; }
+
+    .btn-run .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #60a5fa;
+      display: inline-block;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border-color: var(--border2);
+      color: var(--muted);
+    }
+    .btn-ghost:hover { background: var(--surface2); color: var(--text); border-color: #94a3b8; }
+
     .btn-xs {
       padding: 3px 9px;
-      font-size: 12px;
+      font-size: 11px;
+      font-weight: 600;
       background: var(--bg);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border2);
       border-radius: 6px;
-      color: var(--text-muted);
+      color: var(--muted);
       cursor: pointer;
+      transition: all .12s;
     }
-    .btn-xs:hover { border-color: #6e7681; color: var(--text); }
+    .btn-xs:hover { border-color: #94a3b8; color: var(--text); }
 
-    /* Progress */
+    /* ── Progress ────────────────────────────────────────────────── */
     .prog-wrap { display: none; }
-    .prog-row {
+
+    .prog-header {
       display: flex;
       justify-content: space-between;
       font-size: 13px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
+
+    .prog-label { color: var(--text); }
+    .prog-frac  { color: var(--muted); font-variant-numeric: tabular-nums; }
+
     .prog-track {
       background: var(--bg);
       border-radius: 100px;
-      height: 6px;
+      height: 5px;
       overflow: hidden;
     }
+
     .prog-bar {
       height: 100%;
       border-radius: 100px;
-      background: linear-gradient(90deg, #238636, #58a6ff);
-      transition: width .25s;
+      background: linear-gradient(90deg, #1d4ed8, #6366f1);
+      transition: width .2s ease;
     }
 
-    /* Summary grid */
-    .summary-grid {
+    /* ── Summary grid ─────────────────────────────────────────────── */
+    .summ-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-      gap: 10px;
-      margin-bottom: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 8px;
+      margin-bottom: 14px;
     }
+
     .summ-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 10px;
+      text-align: center;
+    }
+
+    .summ-badge {
+      display: inline-block;
+      padding: 2px 9px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      margin-bottom: 8px;
+    }
+
+    .summ-count {
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 3px;
+    }
+
+    .summ-sub { font-size: 11px; color: var(--muted); }
+
+    /* ── Tier groups ──────────────────────────────────────────────── */
+    .tg {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 14px 12px;
-      text-align: center;
+      margin-bottom: 8px;
+      overflow: hidden;
     }
-    .summ-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; margin-bottom: 4px; }
-    .summ-count { font-size: 30px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
-    .summ-sub { font-size: 11px; color: var(--text-muted); }
 
-    /* Tier group */
-    .tg { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
     .tg-hdr {
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 12px 16px;
+      padding: 10px 14px;
       cursor: pointer;
       user-select: none;
       background: var(--surface2);
       transition: background .1s;
     }
-    .tg-hdr:hover { background: #21262d; }
+    .tg-hdr:hover { background: #e2e8f0; }
+
     .tg-badge {
       padding: 2px 9px;
       border-radius: 20px;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
       border: 1px solid transparent;
     }
-    .tg-title { font-weight: 600; }
-    .tg-count { font-size: 12px; color: var(--text-muted); }
-    .tg-spacer { flex: 1; }
-    .tg-body { }
+
+    .tg-label { font-weight: 600; font-size: 13px; }
+    .tg-cnt   { font-size: 12px; color: var(--muted); }
+    .tg-sp    { flex: 1; }
 
     .key-row {
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 7px 16px;
+      padding: 7px 14px;
       border-top: 1px solid var(--border);
       font-size: 12px;
     }
-    .key-mono { font-family: monospace; color: #a5d6ff; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .key-stat { color: var(--text-muted); white-space: nowrap; }
-    .key-err  { color: #f85149; }
+    .key-row:last-child { /* no special treatment needed */ }
 
-    /* Export row */
-    .export-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+    .key-mono {
+      font-family: 'SF Mono', Menlo, Consolas, monospace;
+      color: #2563eb;
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
-    /* Toast */
+    .key-stat { color: var(--muted); white-space: nowrap; }
+    .key-err  { color: #dc2626; }
+
+    /* ── Export row ──────────────────────────────────────────────── */
+    .export-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    /* ── Tier reference sidebar ─────────────────────────────────── */
+    .ref-card { padding: 16px; margin-bottom: 0; }
+
+    .tier-ref { margin-top: 4px; }
+
+    .tier-ref-model {
+      font-size: 11px;
+      color: var(--muted);
+      font-family: 'SF Mono', Menlo, Consolas, monospace;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tier-ref-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .tier-ref-row:last-child { border-bottom: none; padding-bottom: 2px; }
+
+    .tier-ref-badge {
+      width: 32px;
+      text-align: center;
+      padding: 2px 0;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      flex-shrink: 0;
+    }
+
+    .tier-ref-val {
+      font-size: 12px;
+      font-family: 'SF Mono', Menlo, Consolas, monospace;
+      color: var(--text);
+      flex: 1;
+    }
+
+    .tier-ref-unit { font-size: 10px; color: var(--muted); }
+
+    .ref-note {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ── Tier color palette ──────────────────────────────────────── */
+    .T1 { color: #1d4ed8; border-color: #bfdbfe; background: #eff6ff; }
+    .T2 { color: #16a34a; border-color: #bbf7d0; background: #f0fdf4; }
+    .T3 { color: #b45309; border-color: #fde68a; background: #fffbeb; }
+    .T4 { color: #7c3aed; border-color: #ddd6fe; background: #f5f3ff; }
+    .T5 { color: #b91c1c; border-color: #fecaca; background: #fef2f2; }
+    .INVALID { color: #b91c1c; border-color: #fecaca; background: #fef2f2; }
+    .ERROR   { color: #64748b; border-color: #e2e8f0; background: #f8fafc; }
+
+    /* ── Toast ───────────────────────────────────────────────────── */
     .toast {
       position: fixed;
       bottom: 20px;
       right: 20px;
       background: var(--surface2);
-      border: 1px solid #58a6ff66;
+      border: 1px solid #6366f144;
       border-radius: 8px;
-      padding: 10px 18px;
+      padding: 9px 16px;
       font-size: 13px;
       color: var(--text);
       pointer-events: none;
       opacity: 0;
       transform: translateY(6px);
       transition: opacity .2s, transform .2s;
+      z-index: 100;
     }
     .toast.show { opacity: 1; transform: translateY(0); }
 
-    /* Tier palette */
-    .T1 { color: #79c0ff; border-color: #1f6feb; background: #0d2840; }
-    .T2 { color: #56d364; border-color: #1a7f37; background: #0d2b1a; }
-    .T3 { color: #e3b341; border-color: #9e6a03; background: #2b1e00; }
-    .T4 { color: #bc8cff; border-color: #6e40c9; background: #1a0e2e; }
-    .T5 { color: #ff7b72; border-color: #b62324; background: #2b0d0e; }
-    .INVALID { color: #f85149; border-color: #6e1c1c; background: #2b0c0c; }
-    .ERROR   { color: #7d8590; border-color: #30363d; background: #1c2128; }
+    @media (max-width: 540px) {
+      .hdr-text h1 { font-size: 17px; }
+    }
   </style>
 </head>
 <body>
-<div class="wrap">
 
-  <div class="hdr">
-    <h1>OpenAI 账号等级批量查询</h1>
-    <p>通过 gpt-4o 响应头 <code>x-ratelimit-limit-tokens</code> 判断账号等级 (T1–T5)，每次查询消耗极少 token</p>
-  </div>
-
-  <!-- Input -->
-  <div class="card">
-    <div class="card-title">API Keys — 每行一个</div>
-    <textarea id="keys" placeholder="sk-proj-...&#10;sk-proj-...&#10;sk-proj-..."></textarea>
-    <div class="controls">
-      <button class="btn btn-primary" id="startBtn" onclick="startCheck()">▶ 开始查询</button>
-      <button class="btn btn-ghost" onclick="clearAll()">清空</button>
-      <div class="label-inline">
-        并发数
-        <input type="number" id="concur" value="5" min="1" max="20" />
-      </div>
-      <div class="spacer"></div>
-      <span class="hint" id="keyCount">0 个 Key</span>
+<!-- ── Header ─────────────────────────────────────────────────────── -->
+<header class="hdr">
+  <div class="wrap hdr-inner">
+    <div class="hdr-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="8" cy="15" r="3"/><path d="M11 15h9M17 12v6"/>
+      </svg>
+    </div>
+    <div class="hdr-text">
+      <h1 id="titleEl">OpenAI 账号等级批量查询</h1>
+      <p id="subtitleEl">检测响应头 <code>x-ratelimit-limit-tokens</code> 自动识别账号等级 T1–T5</p>
     </div>
   </div>
+</header>
 
-  <!-- Progress -->
-  <div class="card prog-wrap" id="progWrap">
-    <div class="prog-row">
-      <span id="progLabel">正在查询…</span>
-      <span id="progFrac">0 / 0</span>
-    </div>
-    <div class="prog-track">
-      <div class="prog-bar" id="progBar" style="width:0%"></div>
-    </div>
-  </div>
+<!-- ── Main ───────────────────────────────────────────────────────── -->
+<main>
+  <div class="wrap" style="padding-bottom:60px">
+    <div class="layout">
 
-  <!-- Results -->
-  <div id="results" style="display:none">
-    <div class="summary-grid" id="summGrid"></div>
-    <div id="tierGroups"></div>
-    <div class="export-row">
-      <button class="btn btn-ghost" onclick="exportCSV()">↓ CSV</button>
-      <button class="btn btn-ghost" onclick="exportJSON()">↓ JSON</button>
-      <button class="btn btn-ghost" onclick="copyAll()">⎘ 复制全部 Key（含等级）</button>
-    </div>
-  </div>
+      <!-- Left column: input + progress + results -->
+      <div class="col-main">
 
-</div><!-- /wrap -->
+        <!-- Input card -->
+        <div class="card">
+          <div class="card-title">API Keys — 每行一个</div>
+          <textarea id="keys" placeholder="sk-proj-AAAA...
+sk-proj-BBBB...
+sk-proj-CCCC..."></textarea>
+          <div class="controls">
+            <button class="btn btn-run" id="startBtn" onclick="startCheck()">
+              <span class="dot"></span> 开始查询
+            </button>
+            <button class="btn btn-ghost" onclick="pasteKeys()" title="从剪贴板粘贴">粘贴</button>
+            <button class="btn btn-ghost" onclick="clearAll()">清空</button>
+            <div class="ctrl-group">
+              并发
+              <input type="number" id="concur" value="5" min="1" max="20" />
+            </div>
+            <span class="spacer"></span>
+            <span class="keycount" id="keyCount">0 个 Key</span>
+          </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="card prog-wrap" id="progWrap">
+          <div class="prog-header">
+            <span class="prog-label" id="progLabel">正在查询…</span>
+            <span class="prog-frac" id="progFrac">0 / 0</span>
+          </div>
+          <div class="prog-track">
+            <div class="prog-bar" id="progBar" style="width:0%"></div>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div id="results" style="display:none">
+          <div class="summ-grid" id="summGrid"></div>
+          <div id="tierGroups"></div>
+          <div class="export-row">
+            <button class="btn btn-ghost" onclick="exportCSV()">↓ CSV</button>
+            <button class="btn btn-ghost" onclick="exportJSON()">↓ JSON</button>
+            <button class="btn btn-ghost" onclick="copyAll()">⎘ 复制全部</button>
+          </div>
+        </div>
+
+      </div><!-- /col-main -->
+
+      <!-- Right column: tier reference -->
+      <aside class="col-aside">
+        <div class="card ref-card">
+          <div class="card-title">等级参考</div>
+          <div class="tier-ref">
+            <div class="tier-ref-model">model: gpt-4o</div>
+            <div class="tier-ref-row">
+              <span class="tier-ref-badge T5">T5</span>
+              <span class="tier-ref-val">30M</span>
+              <span class="tier-ref-unit">tokens/min</span>
+            </div>
+            <div class="tier-ref-row">
+              <span class="tier-ref-badge T4">T4</span>
+              <span class="tier-ref-val">2M</span>
+              <span class="tier-ref-unit">tokens/min</span>
+            </div>
+            <div class="tier-ref-row">
+              <span class="tier-ref-badge T3">T3</span>
+              <span class="tier-ref-val">800K</span>
+              <span class="tier-ref-unit">tokens/min</span>
+            </div>
+            <div class="tier-ref-row">
+              <span class="tier-ref-badge T2">T2</span>
+              <span class="tier-ref-val">450K</span>
+              <span class="tier-ref-unit">tokens/min</span>
+            </div>
+            <div class="tier-ref-row">
+              <span class="tier-ref-badge T1">T1</span>
+              <span class="tier-ref-val">30K</span>
+              <span class="tier-ref-unit">tokens/min</span>
+            </div>
+          </div>
+          <p class="ref-note">通过实际请求响应头判断，每次消耗约 1 个 output token。</p>
+        </div>
+      </aside>
+
+    </div><!-- /layout -->
+  </div><!-- /wrap -->
+</main>
 
 <div class="toast" id="toast"></div>
 
+<!-- ── Pretext (title text layout) ────────────────────────────────── -->
+<script type="module">
+import { prepare, layout } from 'https://esm.sh/@chenglou/pretext';
+
+async function initPretext() {
+  await document.fonts.ready;
+  const els = ['titleEl', 'subtitleEl'].map(id => document.getElementById(id)).filter(Boolean);
+  const prepared = new Map();
+  for (const el of els) {
+    prepared.set(el, prepare(el.textContent, getComputedStyle(el).font));
+  }
+  function relayout() {
+    for (const [el, handle] of prepared) {
+      const lh = parseFloat(getComputedStyle(el).lineHeight);
+      const { height } = layout(handle, el.clientWidth, lh);
+      el.style.height = height + 'px';
+    }
+  }
+  new ResizeObserver(relayout).observe(document.body);
+  relayout();
+}
+initPretext().catch(() => {}); // non-blocking
+</script>
+
+<!-- ── App logic (unchanged) ──────────────────────────────────────── -->
 <script>
-// ── Tier definitions ────────────────────────────────────────────
 const TIER_DEFS = [
-  { name: 'T1', max: 30_000,      label: '30K  tokens/min' },
-  { name: 'T2', max: 450_000,     label: '450K tokens/min' },
-  { name: 'T3', max: 800_000,     label: '800K tokens/min' },
-  { name: 'T4', max: 2_000_000,   label: '2M   tokens/min' },
-  { name: 'T5', max: Infinity,    label: '30M  tokens/min' },
+  { name: 'T1', max: 30_000,    label: '30K  tokens/min' },
+  { name: 'T2', max: 450_000,   label: '450K tokens/min' },
+  { name: 'T3', max: 800_000,   label: '800K tokens/min' },
+  { name: 'T4', max: 2_000_000, label: '2M   tokens/min' },
+  { name: 'T5', max: Infinity,  label: '30M  tokens/min' },
 ];
 
 function getTierName(limitTokens) {
-  for (const t of TIER_DEFS) {
-    if (limitTokens <= t.max) return t.name;
-  }
+  for (const t of TIER_DEFS) { if (limitTokens <= t.max) return t.name; }
   return 'T5';
 }
 
@@ -317,7 +602,7 @@ function maskKey(k) {
   return k.slice(0, 10) + '···' + k.slice(-8);
 }
 
-// ── Counter ──────────────────────────────────────────────────────
+// Counter
 const keysTA = document.getElementById('keys');
 const keyCountEl = document.getElementById('keyCount');
 keysTA.addEventListener('input', updateCount);
@@ -330,7 +615,21 @@ function updateCount() {
   keyCountEl.textContent = `${n} 个 Key`;
 }
 
-// ── Core check ───────────────────────────────────────────────────
+// Paste button
+async function pasteKeys() {
+  try {
+    const text = await navigator.clipboard.readText();
+    if (text.trim()) {
+      keysTA.value = keysTA.value ? keysTA.value + '\n' + text : text;
+      updateCount();
+      toast('已粘贴');
+    }
+  } catch {
+    toast('请手动粘贴 (Ctrl/Cmd+V)');
+  }
+}
+
+// Core check
 async function checkKey(apiKey) {
   try {
     const res = await fetch('/api/check', {
@@ -339,30 +638,20 @@ async function checkKey(apiKey) {
       body: JSON.stringify({ apiKey }),
     });
     const data = await res.json();
-
     if (data.error) return { key: apiKey, group: 'ERROR', msg: data.error };
-
     const { httpStatus, limitTokens } = data;
-
     if (httpStatus === 401) return { key: apiKey, group: 'INVALID', msg: '无效 Key' };
-
-    if (limitTokens === null) {
-      return { key: apiKey, group: 'ERROR', msg: `HTTP ${httpStatus}，未获取到限额头` };
-    }
-
-    const tierName = getTierName(limitTokens);
-    return { key: apiKey, group: tierName, limitTokens, httpStatus };
+    if (limitTokens === null) return { key: apiKey, group: 'ERROR', msg: `HTTP ${httpStatus}，未获取到限额头` };
+    return { key: apiKey, group: getTierName(limitTokens), limitTokens, httpStatus };
   } catch (e) {
     return { key: apiKey, group: 'ERROR', msg: e.message };
   }
 }
 
-// ── Concurrency runner ───────────────────────────────────────────
+// Concurrency runner
 async function runConcurrent(items, concur, onDone) {
   const results = new Array(items.length);
-  let next = 0;
-  let finished = 0;
-
+  let next = 0, finished = 0;
   async function worker() {
     while (next < items.length) {
       const i = next++;
@@ -371,73 +660,48 @@ async function runConcurrent(items, concur, onDone) {
       onDone(finished, items.length, results[i]);
     }
   }
-
-  await Promise.all(
-    Array.from({ length: Math.min(concur, items.length) }, () => worker())
-  );
+  await Promise.all(Array.from({ length: Math.min(concur, items.length) }, () => worker()));
   return results;
 }
 
-// ── UI helpers ───────────────────────────────────────────────────
 let allResults = [];
 
 function updateProgress(done, total) {
   const pct = total ? Math.round((done / total) * 100) : 0;
   document.getElementById('progBar').style.width = pct + '%';
   document.getElementById('progFrac').textContent = `${done} / ${total}`;
-  document.getElementById('progLabel').textContent = done < total
-    ? `正在查询… (${pct}%)`
-    : '查询完成 ✓';
+  document.getElementById('progLabel').textContent = done < total ? `正在查询… (${pct}%)` : '查询完成 ✓';
 }
 
-// ── Main entry ───────────────────────────────────────────────────
 async function startCheck() {
   const keys = getKeys();
   if (!keys.length) { toast('请输入至少一个 API Key'); return; }
-
   const concur = Math.max(1, Math.min(20, parseInt(document.getElementById('concur').value) || 5));
-
-  // Reset
   allResults = [];
   document.getElementById('startBtn').disabled = true;
   document.getElementById('progWrap').style.display = 'block';
   document.getElementById('results').style.display = 'none';
+  document.getElementById('summGrid').innerHTML = '';
+  document.getElementById('tierGroups').innerHTML = '';
   updateProgress(0, keys.length);
-
-  const tasks = keys.map(k => () => checkKey(k));
-
-  allResults = await runConcurrent(tasks, concur, (done, total, result) => {
+  allResults = await runConcurrent(keys.map(k => () => checkKey(k)), concur, (done, total, result) => {
     updateProgress(done, total);
-    // Live-append to UI
     appendResult(result);
   });
-
   document.getElementById('startBtn').disabled = false;
   finalizeResults();
 }
 
-// ── Render ───────────────────────────────────────────────────────
 const GROUP_ORDER = ['T5', 'T4', 'T3', 'T2', 'T1', 'INVALID', 'ERROR'];
 
 function appendResult(r) {
-  // Show results section on first result
   const resultsEl = document.getElementById('results');
   if (resultsEl.style.display === 'none') resultsEl.style.display = 'block';
-
-  // Find or create group
   let tgEl = document.getElementById('tg-' + r.group);
-  if (!tgEl) {
-    tgEl = createTierGroup(r.group);
-    insertGroupInOrder(tgEl, r.group);
-  }
-
+  if (!tgEl) { tgEl = createTierGroup(r.group); insertGroupInOrder(tgEl, r.group); }
   const body = tgEl.querySelector('.tg-body');
   body.appendChild(makeKeyRow(r));
-
-  // Update count badge
-  const countEl = tgEl.querySelector('.tg-count');
-  countEl.textContent = body.children.length + ' 个';
-
+  tgEl.querySelector('.tg-cnt').textContent = body.children.length + ' 个';
   refreshSummary();
 }
 
@@ -449,9 +713,9 @@ function createTierGroup(group) {
   div.innerHTML = `
     <div class="tg-hdr" onclick="toggleBody('${group}')">
       <span class="tg-badge ${group}">${group}</span>
-      <span class="tg-title">${label}</span>
-      <span class="tg-count">0 个</span>
-      <span class="tg-spacer"></span>
+      <span class="tg-label">${label}</span>
+      <span class="tg-cnt">0 个</span>
+      <span class="tg-sp"></span>
       <button class="btn-xs" onclick="event.stopPropagation();copyGroup('${group}')">复制此组</button>
     </div>
     <div class="tg-body" id="tbody-${group}"></div>
@@ -463,10 +727,8 @@ function insertGroupInOrder(el, group) {
   const container = document.getElementById('tierGroups');
   const myIdx = GROUP_ORDER.indexOf(group);
   let inserted = false;
-
   for (const child of container.children) {
-    const childGroup = child.id.replace('tg-', '');
-    if (GROUP_ORDER.indexOf(childGroup) > myIdx) {
+    if (GROUP_ORDER.indexOf(child.id.replace('tg-', '')) > myIdx) {
       container.insertBefore(el, child);
       inserted = true;
       break;
@@ -478,58 +740,40 @@ function insertGroupInOrder(el, group) {
 function makeKeyRow(r) {
   const row = document.createElement('div');
   row.className = 'key-row';
-
   const keySpan = `<span class="key-mono" title="${r.key}">${maskKey(r.key)}</span>`;
-
   let info = '';
-  if (r.limitTokens != null) {
-    info = `<span class="key-stat">${fmtTokens(r.limitTokens)} tokens/min</span>`;
-  } else if (r.msg) {
-    info = `<span class="key-err">${r.msg}</span>`;
-  }
-
+  if (r.limitTokens != null) info = `<span class="key-stat">${fmtTokens(r.limitTokens)} t/min</span>`;
+  else if (r.msg)             info = `<span class="key-err">${r.msg}</span>`;
   row.innerHTML = `${keySpan}${info}<button class="btn-xs" onclick="copyKey(this,'${r.key.replace(/'/g, "\\'")}')">复制</button>`;
   return row;
 }
 
 function refreshSummary() {
   const groups = {};
-  for (const r of allResults) {
-    groups[r.group] = (groups[r.group] || 0) + 1;
-  }
-
+  for (const r of allResults) groups[r.group] = (groups[r.group] || 0) + 1;
   const grid = document.getElementById('summGrid');
   grid.innerHTML = '';
-
   for (const g of GROUP_ORDER) {
     if (!groups[g]) continue;
     const label = TIER_DEFS.find(t => t.name === g)?.label || g;
     const card = document.createElement('div');
     card.className = 'summ-card';
     card.innerHTML = `
-      <div class="summ-label" style="color:var(--t${g.toLowerCase()},#7d8590)">${g}</div>
+      <div class="summ-badge ${g}">${g}</div>
       <div class="summ-count">${groups[g]}</div>
-      <div class="summ-sub">${label}</div>
+      <div class="summ-sub">${label.trim()}</div>
     `;
-    // inject color via inline style on label
-    const lbl = card.querySelector('.summ-label');
-    lbl.className = 'summ-label tg-badge ' + g;
-    lbl.style.display = 'inline-block';
-    lbl.style.marginBottom = '6px';
     grid.appendChild(card);
   }
 }
 
-function finalizeResults() {
-  refreshSummary();
-}
+function finalizeResults() { refreshSummary(); }
 
 function toggleBody(group) {
   const body = document.getElementById('tbody-' + group);
   if (body) body.style.display = body.style.display === 'none' ? '' : 'none';
 }
 
-// ── Copy / Export ─────────────────────────────────────────────────
 async function copyKey(btn, key) {
   await copyText(key);
   const orig = btn.textContent;
@@ -544,18 +788,14 @@ function copyGroup(group) {
 }
 
 function copyAll() {
-  const lines = allResults.map(r =>
-    `${r.key}\t${r.group}\t${r.limitTokens != null ? fmtTokens(r.limitTokens) : ''}\t${r.msg || ''}`
-  );
+  const lines = allResults.map(r => `${r.key}\t${r.group}\t${r.limitTokens != null ? fmtTokens(r.limitTokens) : ''}\t${r.msg || ''}`);
   copyText(lines.join('\n'));
   toast('已复制全部结果');
 }
 
 function exportCSV() {
   const header = 'Key,等级,Tokens/min 上限,HTTP状态,备注';
-  const rows = allResults.map(r =>
-    `"${r.key}","${r.group}","${r.limitTokens != null ? fmtTokens(r.limitTokens) : ''}","${r.httpStatus || ''}","${r.msg || ''}"`
-  );
+  const rows = allResults.map(r => `"${r.key}","${r.group}","${r.limitTokens != null ? fmtTokens(r.limitTokens) : ''}","${r.httpStatus || ''}","${r.msg || ''}"`);
   dl([header, ...rows].join('\n'), 'openai-tiers.csv', 'text/csv;charset=utf-8;');
 }
 
@@ -574,10 +814,12 @@ function dl(content, name, type) {
 
 async function copyText(text) {
   try { await navigator.clipboard.writeText(text); }
-  catch { /* fallback */ const t = Object.assign(document.createElement('textarea'),{value:text,style:'position:fixed;opacity:0'}); document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); }
+  catch {
+    const t = Object.assign(document.createElement('textarea'), { value: text, style: 'position:fixed;opacity:0' });
+    document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove();
+  }
 }
 
-// ── Toast ─────────────────────────────────────────────────────────
 let toastTimer;
 function toast(msg) {
   const el = document.getElementById('toast');

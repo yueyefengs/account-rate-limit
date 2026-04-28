@@ -43,7 +43,7 @@ app.post('/api/check', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = 3301;
 app.listen(PORT, () => {
   console.log(`✅ OpenAI Tier Checker 已启动: http://localhost:${PORT}`);
 });
